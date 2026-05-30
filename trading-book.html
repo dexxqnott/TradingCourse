@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MARKET CODE — Panduan Trading</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=IBM+Plex+Mono:wght@300;400;500&family=Karla:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c0f;
+    --surface: #111318;
+    --surface2: #181c23;
+    --border: #1e2330;
+    --gold: #c9a84c;
+    --gold-dim: #8a6f32;
+    --gold-light: #e8c97a;
+    --red: #e05252;
+    --green: #4caf80;
+    --blue: #4a8fe8;
+    --text: #d4d8e2;
+    --text-dim: #7a8299;
+    --text-bright: #f0f2f8;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Karla', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    padding: 60px 24px;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(74,143,232,0.05) 0%, transparent 60%),
+      var(--bg);
+    overflow: hidden;
+  }
+
+  .cover::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .cover-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0.8;
+  }
+
+  .cover-title {
+    font-family: var(--serif);
+    font-size: clamp(56px, 12vw, 110px);
+    font-weight: 900;
+    color: var(--text-bright);
+    line-height: 0.9;
+    letter-spacing: -2px;
+    margin-bottom: 16px;
+  }
+
+  .cover-title span {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .cover-subtitle {
+    font-family: var(--mono);
+    font-size: clamp(11px, 2vw, 14px);
+    color: var(--text-dim);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+    max-width: 500px;
+  }
+
+  .cover-divider {
+    width: 80px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 48px;
+  }
+
+  .cover-ticker {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 60px;
+  }
+
+  .ticker-item {
+    font-family: var(--mono);
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .ticker-sym { color: var(--text-dim); font-size: 10px; letter-spacing: 2px; }
+  .ticker-val { color: var(--text-bright); font-size: 16px; font-weight: 500; }
+  .ticker-chg.up { color: var(--green); }
+  .ticker-chg.dn { color: var(--red); }
+
+  .toc-btn {
+    display: inline-block;
+    padding: 14px 36px;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.3s;
+    text-decoration: none;
+  }
+
+  .toc-btn:hover {
+    background: var(--gold);
+    color: var(--bg);
+  }
+
+  /* ── TOC ── */
+  .toc-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .toc-grid {
+    display: grid;
+    gap: 2px;
+  }
+
+  .toc-item {
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: var(--surface);
+    border-left: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .toc-item:hover {
+    background: var(--surface2);
+    border-left-color: var(--gold);
+  }
+
+  .toc-num {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--gold-dim);
+  }
+
+  .toc-title-wrap {}
+  .toc-ch { font-size: 15px; font-weight: 600; color: var(--text-bright); }
+  .toc-goal { font-family: var(--mono); font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+  .toc-page { font-family: var(--mono); font-size: 12px; color: var(--text-dim); }
+
+  /* ── CHAPTER ── */
+  .chapter {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 80px 24px 40px;
+  }
+
+  .chapter-header {
+    margin-bottom: 64px;
+    border-left: 3px solid var(--gold);
+    padding-left: 24px;
+  }
+
+  .ch-number {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .ch-title {
+    font-family: var(--serif);
+    font-size: clamp(28px, 6vw, 48px);
+    font-weight: 700;
+    color: var(--text-bright);
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .ch-goal {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.6;
+    padding: 12px 16px;
+    background: rgba(201,168,76,0.06);
+    border: 1px solid rgba(201,168,76,0.15);
+    display: inline-block;
+    max-width: 600px;
+  }
+
+  /* content blocks */
+  .prose { margin-bottom: 32px; }
+  .prose p { margin-bottom: 20px; color: var(--text); }
+  .prose p:last-child { margin-bottom: 0; }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 700;
+    color: var(--text-bright);
+    margin: 56px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3 {
+    font-family: var(--sans);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gold-light);
+    margin: 36px 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* callout boxes */
+  .callout {
+    margin: 32px 0;
+    padding: 24px 28px;
+    border-radius: 0;
+    position: relative;
+  }
+
+  .callout-danger {
+    background: rgba(224,82,82,0.07);
+    border-left: 3px solid var(--red);
+  }
+
+  .callout-tip {
+    background: rgba(76,175,128,0.07);
+    border-left: 3px solid var(--green);
+  }
+
+  .callout-info {
+    background: rgba(74,143,232,0.07);
+    border-left: 3px solid var(--blue);
+  }
+
+  .callout-gold {
+    background: rgba(201,168,76,0.07);
+    border-left: 3px solid var(--gold);
+  }
+
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+
+  .callout-danger .callout-label { color: var(--red); }
+  .callout-tip .callout-label { color: var(--green); }
+  .callout-info .callout-label { color: var(--blue); }
+  .callout-gold .callout-label { color: var(--gold); }
+
+  .callout p { color: var(--text); margin: 0; font-size: 15px; }
+
+  /* formula box */
+  .formula-box {
+    margin: 32px 0;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 28px 32px;
+  }
+
+  .formula-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .formula {
+    font-family: var(--mono);
+    font-size: clamp(14px, 3vw, 20px);
+    color: var(--gold-light);
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  .formula .comment {
+    color: var(--text-dim);
+    font-size: 12px;
+    font-weight: 300;
+  }
+
+  /* stat cards */
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 2px;
+    margin: 32px 0;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    padding: 24px;
+    text-align: center;
+  }
+
+  .stat-val {
+    font-family: var(--mono);
+    font-size: clamp(24px, 5vw, 36px);
+    font-weight: 500;
+    color: var(--gold-light);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* table */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 32px 0;
+    font-family: var(--mono);
+    font-size: 13px;
+  }
+
+  .data-table th {
+    background: var(--surface2);
+    color: var(--text-dim);
+    font-weight: 400;
+    letter-spacing: 2px;
+    font-size: 11px;
+    text-transform: uppercase;
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .data-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+
+  .data-table tr:nth-child(odd) td { background: rgba(255,255,255,0.015); }
+  .data-table td.up { color: var(--green); }
+  .data-table td.dn { color: var(--red); }
+  .data-table td.gold { color: var(--gold-light); }
+
+  /* list style */
+  .list-styled {
+    list-style: none;
+    margin: 20px 0 28px;
+  }
+
+  .list-styled li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    color: var(--text);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 15px;
+  }
+
+  .list-styled li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 12px;
+    top: 13px;
+  }
+
+  /* step blocks */
+  .steps {
+    margin: 32px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 0;
+    background: var(--surface);
+  }
+
+  .step-num {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(201,168,76,0.08);
+    min-height: 72px;
+  }
+
+  .step-body {
+    padding: 16px 20px;
+  }
+
+  .step-title {
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.6;
+  }
+
+  /* candlestick visual */
+  .candle-demo {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 120px;
+    padding: 16px 20px;
+    background: var(--surface2);
+    margin: 24px 0;
+    border: 1px solid var(--border);
+    justify-content: center;
+  }
+
+  .candle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    position: relative;
+  }
+
+  .wick { width: 1px; background: currentColor; }
+  .body { width: 14px; border-radius: 1px; }
+  .candle.bull { color: var(--green); }
+  .candle.bear { color: var(--red); }
+
+  /* divider */
+  .ch-divider {
+    margin: 80px 0 0;
+    height: 1px;
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+  }
+
+  /* quote */
+  blockquote {
+    margin: 40px 0;
+    padding: 24px 32px;
+    border-left: 3px solid var(--gold);
+    background: var(--surface);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(16px, 3vw, 20px);
+    color: var(--text-bright);
+    line-height: 1.6;
+  }
+
+  blockquote cite {
+    display: block;
+    margin-top: 12px;
+    font-family: var(--mono);
+    font-style: normal;
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 2px;
+  }
+
+  /* highlight inline */
+  mark {
+    background: rgba(201,168,76,0.2);
+    color: var(--gold-light);
+    padding: 1px 4px;
+    border-radius: 2px;
+  }
+
+  code {
+    font-family: var(--mono);
+    font-size: 13px;
+    background: var(--surface2);
+    color: var(--gold-light);
+    padding: 2px 6px;
+    border: 1px solid var(--border);
+  }
+
+  /* risk-reward visual */
+  .rr-visual {
+    display: flex;
+    gap: 2px;
+    margin: 24px 0;
+    height: 64px;
+    align-items: stretch;
+  }
+
+  .rr-loss {
+    background: rgba(224,82,82,0.2);
+    border: 1px solid rgba(224,82,82,0.4);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--red);
+  }
+
+  .rr-profit {
+    background: rgba(76,175,128,0.15);
+    border: 1px solid rgba(76,175,128,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--green);
+  }
+
+  /* SMC diagram */
+  .smc-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 28px;
+    margin: 24px 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .smc-box::before {
+    content: attr(data-label);
+    position: absolute;
+    top: 0; right: 0;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    background: var(--surface);
+    padding: 4px 10px;
+    border-left: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* checklist */
+  .checklist { list-style: none; margin: 20px 0; }
+  .checklist li {
+    padding: 10px 0 10px 32px;
+    position: relative;
+    color: var(--text);
+    font-size: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .checklist li::before {
+    content: '☐';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 14px;
+  }
+
+  /* emotion meter */
+  .emotion-meter {
+    display: grid;
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .emotion-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 40px;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  .emotion-label { color: var(--text-dim); }
+  .emotion-bar-bg { background: var(--surface2); height: 8px; border-radius: 0; overflow: hidden; }
+  .emotion-bar { height: 100%; border-radius: 0; }
+  .emotion-val { color: var(--text-dim); text-align: right; }
+
+  /* journal template */
+  .journal-template {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 32px;
+    margin: 32px 0;
+    font-family: var(--mono);
+  }
+
+  .journal-field {
+    margin-bottom: 20px;
+  }
+
+  .journal-key {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .journal-line {
+    border-bottom: 1px solid var(--border);
+    padding: 8px 0;
+    color: var(--text-dim);
+    font-size: 13px;
+    min-height: 36px;
+  }
+
+  /* nav */
+  .nav-strip {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,12,15,0.95);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 52px;
+  }
+
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 2px;
+  }
+
+  .nav-chapters {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav-chapters::-webkit-scrollbar { display: none; }
+
+  .nav-ch {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    padding: 6px 10px;
+    white-space: nowrap;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-ch:hover { color: var(--gold); }
+
+  /* page break visual */
+  .page-mark {
+    text-align: center;
+    padding: 48px 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--border);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  /* responsive */
+  @media (max-width: 600px) {
+    .stat-row { grid-template-columns: repeat(2, 1fr); }
+    .toc-item { grid-template-columns: 36px 1fr; }
+    .toc-page { display: none; }
+    .nav-chapters { display: none; }
+    .rr-visual { height: 80px; flex-direction: column; }
+    .emotion-row { grid-template-columns: 110px 1fr 36px; }
+  }
+
+  /* scroll animation */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav-strip">
+  <span class="nav-logo">MARKET CODE</span>
+  <div class="nav-chapters">
+    <a class="nav-ch" href="#bab1">BAB 1</a>
+    <a class="nav-ch" href="#bab2">BAB 2</a>
+    <a class="nav-ch" href="#bab3">BAB 3</a>
+    <a class="nav-ch" href="#bab4">BAB 4</a>
+    <a class="nav-ch" href="#bab5">BAB 5</a>
+    <a class="nav-ch" href="#bab6">BAB 6</a>
+  </div>
+</nav>
+
+<!-- COVER -->
+<section class="cover">
+  <p class="cover-tag">Panduan Komprehensif Trading</p>
+  <h1 class="cover-title">MARKET<br><span>CODE</span></h1>
+  <p class="cover-subtitle">Dari Mindset ke Eksekusi — Panduan Trader Profesional</p>
+  <div class="cover-divider"></div>
+  <div class="cover-ticker">
+    <div class="ticker-item">
+      <span class="ticker-sym">XAUUSD</span>
+      <span class="ticker-val">2,341.50</span>
+      <span class="ticker-chg up">+0.84%</span>
+    </div>
+    <div class="ticker-item">
+      <span class="ticker-sym">BTC/USD</span>
+      <span class="ticker-val">67,420</span>
+      <span class="ticker-chg up">+2.11%</span>
+    </div>
+    <div class="ticker-item">
+      <span class="ticker-sym">EUR/USD</span>
+      <span class="ticker-val">1.0842</span>
+      <span class="ticker-chg dn">-0.23%</span>
+    </div>
+    <div class="ticker-item">
+      <span class="ticker-sym">NQ100</span>
+      <span class="ticker-val">18,745</span>
+      <span class="ticker-chg up">+0.57%</span>
+    </div>
+  </div>
+  <a class="toc-btn" href="#toc">Lihat Daftar Isi ↓</a>
+</section>
+
+<!-- TOC -->
+<section id="toc">
+  <div class="toc-section fade-in">
+    <p class="section-label">Daftar Isi</p>
+    <div class="toc-grid">
+      <a class="toc-item" href="#bab1">
+        <span class="toc-num">01</span>
+        <div class="toc-title-wrap">
+          <div class="toc-ch">Realitas Industri & Mindset Benar</div>
+          <div class="toc-goal">Membunuh ekspektasi "cepat kaya"</div>
+        </div>
+        <span class="toc-page">BAB 1</span>
+      </a>
+      <a class="toc-item" href="#bab2">
+        <span class="toc-num">02</span>
+        <div class="toc-title-wrap">
+          <div class="toc-ch">Anatomi Pasar & Mekanisme Harga</div>
+          <div class="toc-goal">Institusi vs Retail, Candlestick, Market Structure</div>
+        </div>
+        <span class="toc-page">BAB 2</span>
+      </a>
+      <a class="toc-item" href="#bab3">
+        <span class="toc-num">03</span>
+        <div class="toc-title-wrap">
+          <div class="toc-ch">Jantungnya Trading — Risk Management</div>
+          <div class="toc-goal">Position Sizing, R:R Ratio, Anti-Margin Call</div>
+        </div>
+        <span class="toc-page">BAB 3</span>
+      </a>
+      <a class="toc-item" href="#bab4">
+        <span class="toc-num">04</span>
+        <div class="toc-title-wrap">
+          <div class="toc-ch">Senjata Utama — Technical Analysis SMC</div>
+          <div class="toc-goal">Order Block, Liquidity, Break of Structure</div>
+        </div>
+        <span class="toc-page">BAB 4</span>
+      </a>
+      <a class="toc-item" href="#bab5">
+        <span class="toc-num">05</span>
+        <div class="toc-title-wrap">
+          <div class="toc-ch">Eksekusi & Trading Plan</div>
+          <div class="toc-goal">SOP baku sebelum klik Buy/Sell</div>
+        </div>
+        <span class="toc-page">BAB 5</span>
+      </a>
+      <a class="toc-item" href="#bab6">
+        <span class="toc-num">06</span>
+        <div class="toc-title-wrap">
+          <div class="toc-ch">Sisi Gelap Trader — Psikologi & Emosi</div>
+          <div class="toc-goal">Overconfidence, Revenge Trading, Jurnal</div>
+        </div>
+        <span class="toc-page">BAB 6</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ BAB 1 ══════════ -->
+<div class="page-mark">— BAB I —</div>
+<section id="bab1" class="chapter fade-in">
+  <div class="chapter-header">
+    <div class="ch-number">Bab Satu · Mindset</div>
+    <h1 class="ch-title">Realitas Industri &<br>Mindset yang Benar</h1>
+    <div class="ch-goal">🎯 Goal: Membunuh ekspektasi "cepat kaya" dan mengenalkan konsep probabilitas</div>
+  </div>
+
+  <div class="prose">
+    <p>Setiap tahun, jutaan orang masuk ke dunia trading dengan mimpi yang sama: mengubah modal kecil menjadi kekayaan dalam hitungan minggu. Mereka melihat screenshot profit di media sosial, mendengar cerita sukses yang viral, dan percaya bahwa pasar adalah mesin ATM yang menunggu untuk dikuras. Realitasnya sangat berbeda — dan memahami perbedaan ini adalah langkah pertama yang paling penting.</p>
+    <p>Dokumen ini bukan tentang menakut-nakuti kamu. Ini tentang membangun pondasi yang kokoh agar setiap keputusan trading ke depan didasarkan pada logika, bukan ilusi.</p>
+  </div>
+
+  <div class="callout callout-danger">
+    <div class="callout-label">⚠ Fakta Keras Industri</div>
+    <p>Studi dari berbagai regulator sekuritas global menunjukkan bahwa <strong>70–80% trader retail mengalami kerugian</strong> dalam jangka panjang. Bukan karena pasar "curang" — tapi karena mereka masuk tanpa edge yang terverifikasi dan manajemen risiko yang benar.</p>
+  </div>
+
+  <h2>1.1 Mengapa Orang Gagal di Trading</h2>
+  <ul class="list-styled">
+    <li><strong>Ekspektasi tidak realistis</strong> — berharap return 100% per bulan secara konsisten</li>
+    <li><strong>Modal terlalu kecil + leverage terlalu besar</strong> — kombinasi paling mematikan</li>
+    <li><strong>Tidak ada edge yang terverifikasi</strong> — beli indikator, copy signal, dan berharap</li>
+    <li><strong>Psikologi yang tidak terjaga</strong> — FOMO, greed, dan revenge trading menguras akun</li>
+    <li><strong>Skip risk management</strong> — percaya strategi terlalu bagus untuk salah</li>
+    <li><strong>Tidak ada jurnal/rekam jejak</strong> — tidak bisa belajar dari kesalahan masa lalu</li>
+  </ul>
+
+  <h2>1.2 Trading adalah Bisnis Probabilitas</h2>
+  <div class="prose">
+    <p>Trader profesional tidak berpikir dalam konteks "apakah trade ini akan profit?" melainkan <mark>"apakah setup ini memiliki probabilitas positif yang cukup untuk dieksekusi?"</mark></p>
+    <p>Tidak ada satu pun strategi trading yang memiliki win rate 100%. Yang ada adalah sistem yang, dalam ratusan trade, menghasilkan <strong>Expectancy positif</strong>.</p>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-title">Formula Expectancy</div>
+    <div class="formula">
+      Expectancy = (Win Rate × Avg Win) − (Loss Rate × Avg Loss)<br>
+      <span class="comment"><br>Contoh: Win Rate 45%, Avg Win = 2R, Avg Loss = 1R<br>
+      = (0.45 × 2) − (0.55 × 1) = 0.90 − 0.55 = <strong style="color:var(--green)">+0.35R per trade</strong></span>
+    </div>
+  </div>
+
+  <div class="callout callout-gold">
+    <div class="callout-label">💡 Insight Kunci</div>
+    <p>Kamu bisa profit secara konsisten dengan win rate <strong>hanya 40%</strong> — asalkan Average Win kamu 2-3x lebih besar dari Average Loss. Ini bukan sihir, ini matematika.</p>
+  </div>
+
+  <h2>1.3 Berapa Lama Butuh untuk Profitable?</h2>
+  <div class="stat-row">
+    <div class="stat-card">
+      <span class="stat-val">6–12</span>
+      <span class="stat-label">Bulan belajar demo</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-val">1–2</span>
+      <span class="stat-label">Tahun live account kecil</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-val">3–5</span>
+      <span class="stat-label">Tahun konsisten profit</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-val">∞</span>
+      <span class="stat-label">Terus belajar & adapt</span>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-label">✓ Mindset yang Benar</div>
+    <p>Perlakukan trading seperti bisnis, bukan judi. Seorang trader sukses adalah seseorang yang <strong>konsisten mengikuti proses</strong>, bukan seseorang yang selalu benar. Fokus pada eksekusi yang disiplin — hasil akan mengikuti.</p>
+  </div>
+
+  <h2>1.4 Reframing: Apa Itu Sukses dalam Trading?</h2>
+  <div class="prose">
+    <p>Trader amatir mengukur sukses dari: <em>"Berapa banyak profit trade ini?"</em></p>
+    <p>Trader profesional mengukur sukses dari: <em>"Apakah aku mengikuti trading plan-ku dengan disiplin? Apakah risk management-ku terjaga?"</em></p>
+  </div>
+
+  <blockquote>
+    "Hasil dari setiap trade individual adalah acak. Tapi dalam jangka panjang, edge yang konsisten akan selalu menang atas ketidakpastian."
+    <cite>— Mark Douglas, Trading in the Zone</cite>
+  </blockquote>
+
+  <div class="ch-divider"></div>
+</section>
+
+<!-- ══════════ BAB 2 ══════════ -->
+<div class="page-mark">— BAB II —</div>
+<section id="bab2" class="chapter fade-in">
+  <div class="chapter-header">
+    <div class="ch-number">Bab Dua · Pasar</div>
+    <h1 class="ch-title">Anatomi Pasar &<br>Mekanisme Harga</h1>
+    <div class="ch-goal">🎯 Goal: Paham siapa yang bergerak di balik layar dan dasar Candlestick/Market Structure</div>
+  </div>
+
+  <div class="prose">
+    <p>Pasar keuangan bukan tempat yang "netral" di mana semua peserta memiliki kekuatan yang sama. Ada hierarki yang sangat jelas — dan memahami siapa yang ada di atas hierarki ini akan mengubah cara kamu melihat chart selamanya.</p>
+  </div>
+
+  <h2>2.1 Hierarki Pelaku Pasar</h2>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Pelaku</th>
+        <th>Siapa</th>
+        <th>Modal</th>
+        <th>Pengaruh</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="gold">Tier 1 — Smart Money</td>
+        <td>Bank sentral, hedge fund besar, investment bank</td>
+        <td>Triliunan USD</td>
+        <td class="up">Menggerakkan pasar</td>
+      </tr>
+      <tr>
+        <td class="gold">Tier 2 — Institusi</td>
+        <td>Mutual fund, pension fund, insurance</td>
+        <td>Miliaran USD</td>
+        <td class="up">Mengikuti Smart Money</td>
+      </tr>
+      <tr>
+        <td style="color:var(--text-dim)">Tier 3 — Retail</td>
+        <td>Kamu, saya, trader individu</td>
+        <td>Ratusan–ribuan USD</td>
+        <td class="dn">Sumber likuiditas</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-danger">
+    <div class="callout-label">🔴 Realita Pahit</div>
+    <p>Retail trader tidak berperang melawan sesama retail. Kita berinteraksi dengan sistem yang didesain oleh institusi. Memahami pola pikir institusi adalah kunci untuk berhenti menjadi "likuiditas" bagi mereka dan mulai <strong>mengikuti jejak mereka</strong>.</p>
+  </div>
+
+  <h2>2.2 Bagaimana Institusi Bergerak</h2>
+  <div class="prose">
+    <p>Institusi tidak bisa masuk pasar seperti retail yang langsung klik Buy/Sell. Mereka membutuhkan <strong>likuiditas besar</strong> untuk mengisi order mereka tanpa menggerakkan harga terlalu drastis. Inilah mengapa mereka melakukan <em>accumulation</em> dan <em>distribution</em>.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Accumulation</div>
+        <div class="step-desc">Institusi diam-diam mengumpulkan posisi di area yang tidak banyak diperhatikan retail. Harga bergerak sideways ("choppy") — ini bukan sinyal beli/jual, ini proses pengisian order besar.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Manipulation / Liquidity Hunt</div>
+        <div class="step-desc">Harga sengaja didorong menembus level penting (Support/Resistance) untuk memicu stop loss retail dan menciptakan likuiditas. Ini adalah fase "fakeout" yang membingungkan banyak trader.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Distribution / Mark-Up</div>
+        <div class="step-desc">Setelah order terisi penuh, harga bergerak ke arah yang sebenarnya dengan momentum kuat. Retail yang baru masuk di tahap ini sudah terlambat dan sering menjadi korban.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>2.3 Membaca Candlestick</h2>
+  <div class="prose">
+    <p>Candlestick adalah bahasa visual pasar. Setiap candle menceritakan pertarungan antara buyer dan seller dalam satu periode waktu.</p>
+  </div>
+
+  <div class="candle-demo">
+    <!-- Bearish -->
+    <div class="candle bear" style="height:100%; justify-content:center; display:flex; flex-direction:column; align-items:center; gap:0">
+      <div class="wick" style="height:20px; background:var(--red)"></div>
+      <div class="body" style="height:50px; background:var(--red)"></div>
+      <div class="wick" style="height:10px; background:var(--red)"></div>
+    </div>
+    <!-- Bullish small -->
+    <div class="candle bull" style="height:100%; justify-content:center; display:flex; flex-direction:column; align-items:center; gap:0">
+      <div class="wick" style="height:15px; background:var(--green)"></div>
+      <div class="body" style="height:25px; background:rgba(76,175,128,0.3); border:1px solid var(--green)"></div>
+      <div class="wick" style="height:25px; background:var(--green)"></div>
+    </div>
+    <!-- Doji -->
+    <div class="candle" style="color:var(--text-dim); height:100%; justify-content:center; display:flex; flex-direction:column; align-items:center; gap:0">
+      <div class="wick" style="height:30px; background:var(--text-dim)"></div>
+      <div class="body" style="height:4px; width:16px; background:var(--text-dim)"></div>
+      <div class="wick" style="height:30px; background:var(--text-dim)"></div>
+    </div>
+    <!-- Bullish strong -->
+    <div class="candle bull" style="height:100%; justify-content:center; display:flex; flex-direction:column; align-items:center; gap:0">
+      <div class="wick" style="height:8px; background:var(--green)"></div>
+      <div class="body" style="height:65px; background:var(--green)"></div>
+      <div class="wick" style="height:8px; background:var(--green)"></div>
+    </div>
+    <!-- Hammer -->
+    <div class="candle bull" style="height:100%; justify-content:center; display:flex; flex-direction:column; align-items:center; gap:0">
+      <div class="wick" style="height:5px; background:var(--green)"></div>
+      <div class="body" style="height:20px; background:var(--green)"></div>
+      <div class="wick" style="height:45px; background:var(--green)"></div>
+    </div>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Pola</th><th>Sinyal</th><th>Kekuatan</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="up">Marubozu Bullish</td><td>Buyer dominan penuh, tidak ada penolakan</td><td class="up">Kuat</td></tr>
+      <tr><td class="dn">Marubozu Bearish</td><td>Seller dominan penuh, momentum turun</td><td class="dn">Kuat</td></tr>
+      <tr><td>Doji</td><td>Keseimbangan buyer-seller, potensi reversal</td><td>Konfirmasi dibutuhkan</td></tr>
+      <tr><td class="up">Hammer / Pin Bar</td><td>Penolakan harga rendah, buyer masuk</td><td class="up">Sedang–Kuat</td></tr>
+      <tr><td class="dn">Shooting Star</td><td>Penolakan harga tinggi, seller masuk</td><td class="dn">Sedang–Kuat</td></tr>
+      <tr><td class="up">Engulfing Bullish</td><td>Candle bull menutup seluruh body candle bear sebelumnya</td><td class="up">Kuat</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2.4 Market Structure Dasar</h2>
+  <div class="prose">
+    <p><strong>Market Structure</strong> adalah kerangka baca arah pasar yang paling fundamental. Sebelum menggunakan indikator apapun, kamu harus bisa membaca apakah pasar sedang dalam kondisi bullish, bearish, atau ranging.</p>
+  </div>
+
+  <div class="smc-box" data-label="MARKET STRUCTURE">
+    <table class="data-table" style="margin:0">
+      <thead><tr><th>Kondisi</th><th>Ciri</th><th>Aksi</th></tr></thead>
+      <tbody>
+        <tr><td class="up">Uptrend (Bullish)</td><td>Higher High (HH) + Higher Low (HL) secara berurutan</td><td class="up">Cari peluang Buy di area HL</td></tr>
+        <tr><td class="dn">Downtrend (Bearish)</td><td>Lower Low (LL) + Lower High (LH) secara berurutan</td><td class="dn">Cari peluang Sell di area LH</td></tr>
+        <tr><td style="color:var(--text-dim)">Ranging / Sideways</td><td>Harga bergerak antara dua batas yang jelas</td><td style="color:var(--text-dim)">Hindari atau trade di ekstrem range</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-label">✓ Prinsip Multi-Timeframe</div>
+    <p>Selalu konfirmasi struktur dari <strong>Higher Timeframe (HTF)</strong> dulu — misalnya H4 atau Daily — sebelum mencari entry di Lower Timeframe (LTF). Trader pemula sering gagal karena mencari sell di LTF padahal HTF sedang dalam uptrend yang kuat.</p>
+  </div>
+
+  <div class="ch-divider"></div>
+</section>
+
+<!-- ══════════ BAB 3 ══════════ -->
+<div class="page-mark">— BAB III —</div>
+<section id="bab3" class="chapter fade-in">
+  <div class="chapter-header">
+    <div class="ch-number">Bab Tiga · Risk Management</div>
+    <h1 class="ch-title">Jantungnya Trading —<br>Risk Management</h1>
+    <div class="ch-goal">🎯 Goal: Hitung Position Sizing, Risk:Reward Ratio minimum 1:2, dan cara menjaga modal dari Margin Call</div>
+  </div>
+
+  <blockquote>
+    "Seorang trader amateur bertanya: 'Berapa banyak yang bisa aku dapatkan?' Seorang trader profesional bertanya: 'Berapa banyak yang bisa aku kehilangan?'"
+    <cite>— Prinsip Trading Klasik</cite>
+  </blockquote>
+
+  <div class="prose">
+    <p>Risk Management adalah satu-satunya hal yang bisa kamu kontrol 100% di pasar. Kamu tidak bisa mengontrol ke mana harga bergerak. Tapi kamu <em>selalu bisa</em> mengontrol berapa banyak yang kamu pertaruhkan di setiap trade.</p>
+    <p>Trader yang gagal biasanya bukan karena strategi yang buruk — tapi karena mereka tidak punya sistem untuk membatasi kerugian. Satu trade besar yang salah bisa menghapus puluhan trade yang benar.</p>
+  </div>
+
+  <h2>3.1 Aturan Risiko Per Trade</h2>
+  <div class="stat-row">
+    <div class="stat-card">
+      <span class="stat-val" style="color:var(--green)">1%</span>
+      <span class="stat-label">Risiko per trade (konservatif)</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-val" style="color:var(--gold)">2%</span>
+      <span class="stat-label">Risiko per trade (standar)</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-val" style="color:var(--red)">5%+</span>
+      <span class="stat-label">Berbahaya / gambling</span>
+    </div>
+  </div>
+
+  <div class="callout callout-gold">
+    <div class="callout-label">💡 Mengapa Maksimal 2%?</div>
+    <p>Dengan risiko 2% per trade, kamu butuh <strong>50 trade kalah berturut-turut</strong> untuk bangkrut. Dalam praktiknya, tidak ada sistem trading yang valid menghasilkan 50 loss streak. Ini memberikan buffer psikologis dan finansial yang cukup untuk survive drawdown panjang.</p>
+  </div>
+
+  <h2>3.2 Menghitung Position Sizing</h2>
+  <div class="prose">
+    <p>Position sizing adalah <em>berapa banyak lot/kontrak/saham</em> yang harus kamu buka untuk sebuah trade — berdasarkan modal, risk yang diizinkan, dan jarak stop loss.</p>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-title">Formula Position Sizing</div>
+    <div class="formula">
+      Risk per Trade (Rp) = Modal × % Risiko<br>
+      Jarak SL (pip/poin) = Entry − Stop Loss<br><br>
+      Lot Size = Risk per Trade ÷ (Jarak SL × Nilai per Pip)<br><br>
+      <span class="comment">Contoh Forex (USD):
+      Modal = $5,000 | Risiko = 2% = $100
+      Entry: 1.0850 | SL: 1.0800 | Jarak SL = 50 pip
+      Nilai per pip (0.01 lot) = $0.10
+      → Lot Size = $100 ÷ (50 × $10) = 0.2 lot</span>
+    </div>
+  </div>
+
+  <h2>3.3 Risk:Reward Ratio</h2>
+  <div class="prose">
+    <p>R:R Ratio menentukan apakah sebuah setup "layak" diambil secara matematis. Jangan pernah masuk trade dengan R:R di bawah 1:2.</p>
+  </div>
+
+  <p style="font-family:var(--mono); font-size:13px; color:var(--text-dim); margin-bottom:8px;">VISUALISASI R:R — Trade dengan Risiko $100</p>
+  <div class="rr-visual">
+    <div class="rr-loss">LOSS: −$100 (1R)</div>
+    <div class="rr-profit" style="flex:2">PROFIT: +$200 (2R)</div>
+  </div>
+  <div class="rr-visual">
+    <div class="rr-loss">LOSS: −$100 (1R)</div>
+    <div class="rr-profit" style="flex:3">PROFIT: +$300 (3R)</div>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Win Rate</th><th>R:R 1:1</th><th>R:R 1:2</th><th>R:R 1:3</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>30%</td><td class="dn">−40%</td><td class="dn">−10%</td><td class="up">+20%</td></tr>
+      <tr><td>40%</td><td class="dn">−20%</td><td class="up">+20%</td><td class="up">+60%</td></tr>
+      <tr><td>50%</td><td style="color:var(--text-dim)">0%</td><td class="up">+50%</td><td class="up">+100%</td></tr>
+      <tr><td>60%</td><td class="up">+20%</td><td class="up">+80%</td><td class="up">+140%</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3.4 Cara Menghindari Margin Call</h2>
+
+  <ul class="list-styled">
+    <li><strong>Gunakan Stop Loss di setiap trade</strong> — tanpa pengecualian apapun</li>
+    <li><strong>Jangan pernah geser SL menjauhi entry</strong> — "harapan" bukan strategi</li>
+    <li><strong>Batasi total exposure</strong> — maksimal 3–4 trade terbuka bersamaan</li>
+    <li><strong>Gunakan leverage rendah</strong> — leverage tinggi = margin call cepat</li>
+    <li><strong>Terapkan daily loss limit</strong> — jika sudah rugi 5% dalam sehari, berhenti total</li>
+    <li><strong>Jangan averaging down tanpa rencana jelas</strong> — ini kebiasaan fatal pemula</li>
+  </ul>
+
+  <div class="callout callout-danger">
+    <div class="callout-label">🚨 Warning: Leverage</div>
+    <p>Leverage 1:100 atau 1:500 bukan "keuntungan gratis". Leverage 1:100 artinya pergerakan harga hanya <strong>1% melawan kamu sudah cukup untuk menghapus seluruh margin</strong>. Trader profesional rata-rata menggunakan leverage efektif di bawah 1:10.</p>
+  </div>
+
+  <div class="ch-divider"></div>
+</section>
+
+<!-- ══════════ BAB 4 ══════════ -->
+<div class="page-mark">— BAB IV —</div>
+<section id="bab4" class="chapter fade-in">
+  <div class="chapter-header">
+    <div class="ch-number">Bab Empat · Technical Analysis</div>
+    <h1 class="ch-title">Senjata Utama —<br>SMC & Price Action</h1>
+    <div class="ch-goal">🎯 Goal: Order Block yang valid, Liquidity, dan Break of Structure (BOS)</div>
+  </div>
+
+  <div class="prose">
+    <p>Smart Money Concept (SMC) adalah pendekatan analisis teknikal yang berfokus pada cara institusi beroperasi di pasar. Berbeda dengan pendekatan indikator klasik (RSI, MACD, Bollinger Bands) yang bersifat lagging, SMC mencoba membaca <em>jejak institusi</em> langsung dari pergerakan harga itu sendiri.</p>
+    <p>Tiga pilar utama SMC yang wajib dikuasai: <strong>Order Block, Liquidity, dan Break of Structure.</strong></p>
+  </div>
+
+  <h2>4.1 Break of Structure (BOS) & Change of Character (ChoCh)</h2>
+  <div class="prose">
+    <p><strong>Break of Structure (BOS)</strong> terjadi ketika harga berhasil menembus swing high atau swing low yang signifikan, mengkonfirmasi berlanjutnya tren.</p>
+    <p><strong>Change of Character (ChoCh)</strong> adalah BOS yang <em>berlawanan dengan tren saat ini</em> — sinyal pertama bahwa tren mungkin berbalik arah.</p>
+  </div>
+
+  <div class="smc-box" data-label="BOS vs ChoCh">
+    <table class="data-table" style="margin:0">
+      <thead><tr><th>Event</th><th>Apa yang Terjadi</th><th>Sinyal</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="up">BOS Bullish</td>
+          <td>Harga menembus Higher High sebelumnya</td>
+          <td class="up">Konfirmasi uptrend berlanjut</td>
+        </tr>
+        <tr>
+          <td class="dn">BOS Bearish</td>
+          <td>Harga menembus Lower Low sebelumnya</td>
+          <td class="dn">Konfirmasi downtrend berlanjut</td>
+        </tr>
+        <tr>
+          <td style="color:var(--gold-light)">ChoCh Bullish</td>
+          <td>Dalam downtrend, harga tiba-tiba menembus Higher High</td>
+          <td class="up">Potensi reversal ke atas</td>
+        </tr>
+        <tr>
+          <td style="color:var(--gold-light)">ChoCh Bearish</td>
+          <td>Dalam uptrend, harga tiba-tiba menembus Lower Low</td>
+          <td class="dn">Potensi reversal ke bawah</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2>4.2 Order Block (OB)</h2>
+  <div class="prose">
+    <p>Order Block adalah zona harga di mana institusi telah menempatkan order besar — dan kemungkinan besar akan kembali ke zona tersebut untuk mengisi sisa order mereka. Inilah mengapa harga sering "kembali" ke level-level tertentu sebelum melanjutkan pergerakan.</p>
+  </div>
+
+  <h3>Cara Mengidentifikasi Order Block yang Valid</h3>
+  <ul class="list-styled">
+    <li><strong>Bullish OB</strong> — Candle bearish terakhir sebelum impulse move ke atas yang kuat. Area ini menjadi zona support potensial.</li>
+    <li><strong>Bearish OB</strong> — Candle bullish terakhir sebelum impulse move ke bawah yang kuat. Area ini menjadi zona resistance potensial.</li>
+    <li><strong>OB lebih valid jika</strong> sebelum terbentuknya ada "likuiditas sweep" (harga menyapu stop loss retail terlebih dahulu)</li>
+    <li><strong>OB berkurang validitasnya</strong> setelah terlalu sering dites (2–3 kali touch)</li>
+  </ul>
+
+  <div class="callout callout-info">
+    <div class="callout-label">📌 Mitigated vs Unmitigated OB</div>
+    <p><strong>Unmitigated OB</strong> = Order Block yang belum pernah dites kembali oleh harga → ini yang kita cari untuk entry. <strong>Mitigated OB</strong> = sudah dites dan potensinya berkurang. Selalu prioritaskan OB yang masih "fresh".</p>
+  </div>
+
+  <h2>4.3 Liquidity — Memahami Stop Hunt</h2>
+  <div class="prose">
+    <p>Likuiditas dalam konteks SMC adalah kumpulan order (terutama stop loss) yang tersimpan di area-area tertentu di chart. Institusi <em>membutuhkan</em> likuiditas ini untuk mengisi order mereka yang besar.</p>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Jenis Likuiditas</th><th>Lokasi</th><th>Deskripsi</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="gold">BSL (Buy-Side Liq.)</td>
+        <td>Di atas swing high / equal highs</td>
+        <td>Stop loss para seller dan pending buy order retail berkumpul di sini</td>
+      </tr>
+      <tr>
+        <td class="gold">SSL (Sell-Side Liq.)</td>
+        <td>Di bawah swing low / equal lows</td>
+        <td>Stop loss para buyer berkumpul di sini, target utama bear run</td>
+      </tr>
+      <tr>
+        <td>Fair Value Gap (FVG)</td>
+        <td>Gap antara 3 candle berurutan</td>
+        <td>Ketidakseimbangan harga yang cenderung diisi kembali</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-gold">
+    <div class="callout-label">💡 Pola Liquidity Grab → Entry</div>
+    <p>Salah satu setup terbaik di SMC adalah: <strong>Harga sweep likuiditas (menembus level yang banyak SL-nya) → masuk ke dalam OB → ChoCh terjadi → entry ke arah berlawanan dengan sweep.</strong> Ini adalah "raid" institusi yang paling bisa kita ikuti.</p>
+  </div>
+
+  <h2>4.4 Fair Value Gap (FVG) / Imbalance</h2>
+  <div class="prose">
+    <p>FVG terbentuk ketika ada tiga candle berturut-turut di mana candle ketiga tidak overlap dengan candle pertama, menciptakan "gap" di antara keduanya. Pasar cenderung kembali mengisi gap ini sebelum melanjutkan pergerakan.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Identifikasi tiga candle berurutan</div>
+        <div class="step-desc">Candle 1 (high/low), Candle 2 (candle momentum besar), Candle 3 (tidak overlap dengan Candle 1)</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Tandai zona FVG</div>
+        <div class="step-desc">Bullish FVG: antara high Candle 1 dan low Candle 3. Bearish FVG: antara low Candle 1 dan high Candle 3.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">Tunggu harga kembali ke FVG</div>
+        <div class="step-desc">Entry ketika harga retrace ke zona FVG dan menunjukkan konfirmasi (rejection candle, ChoCh di LTF)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ch-divider"></div>
+</section>
+
+<!-- ══════════ BAB 5 ══════════ -->
+<div class="page-mark">— BAB V —</div>
+<section id="bab5" class="chapter fade-in">
+  <div class="chapter-header">
+    <div class="ch-number">Bab Lima · Eksekusi</div>
+    <h1 class="ch-title">Eksekusi &<br>Trading Plan</h1>
+    <div class="ch-goal">🎯 Goal: Memadukan Risk Management + Technical Analysis jadi SOP baku sebelum klik Buy/Sell</div>
+  </div>
+
+  <div class="prose">
+    <p>Memiliki strategi yang bagus saja tidak cukup. Yang membedakan trader profesional dari trader amatir adalah <strong>konsistensi eksekusi</strong>. Trading Plan adalah dokumen yang mengubah strategi abstrak menjadi langkah-langkah konkret yang bisa diikuti setiap hari — terutama saat emosi sedang tinggi.</p>
+  </div>
+
+  <blockquote>
+    "Jika kamu gagal merencanakan, kamu merencanakan untuk gagal."
+    <cite>— Benjamin Franklin</cite>
+  </blockquote>
+
+  <h2>5.1 SOP Pre-Trade Analysis (Top-Down)</h2>
+  <div class="prose">
+    <p>Sebelum membuka satu pun posisi, ikuti urutan analisis dari Higher Timeframe ke Lower Timeframe. Jangan pernah langsung loncat ke LTF tanpa konteks HTF.</p>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title">Monthly / Weekly — Bias Makro</div>
+        <div class="step-desc">Tentukan tren jangka panjang. Apakah kita dalam HTF uptrend atau downtrend? Identifikasi level-level key (major S/R, supply/demand zone besar).</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title">Daily / H4 — Bias Harian</div>
+        <div class="step-desc">Konfirmasi tren dari HTF. Identifikasi Order Block, FVG, dan Liquidity Zone yang relevan untuk beberapa hari ke depan.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title">H1 / M30 — Area Entry Potensial</div>
+        <div class="step-desc">Identifikasi OB spesifik dan FVG yang sejajar dengan bias HTF. Ini adalah area yang akan kamu awasi untuk entry.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title">M15 / M5 — Konfirmasi & Entry</div>
+        <div class="step-desc">Tunggu konfirmasi di LTF: ChoCh, rejection candle, atau FVG fill. Hanya entry jika semua kondisi terpenuhi.</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>5.2 Checklist Sebelum Entry</h2>
+  <div class="callout callout-info">
+    <div class="callout-label">📋 Pre-Trade Checklist</div>
+    <p>Jangan pernah skip checklist ini. Jika ada satu item yang tidak terpenuhi, <strong>jangan masuk trade</strong>.</p>
+  </div>
+  <ul class="checklist">
+    <li>Bias HTF (Daily/H4) sejajar dengan arah entry yang direncanakan</li>
+    <li>Area entry adalah Order Block atau FVG yang masih unmitigated</li>
+    <li>Ada konfirmasi BOS atau ChoCh di LTF sebelum entry</li>
+    <li>Stop Loss sudah ditempatkan di level yang logis (di luar OB / swing high/low)</li>
+    <li>Take Profit di level likuiditas berikutnya (BSL atau SSL)</li>
+    <li>R:R ratio sudah dihitung dan minimal 1:2</li>
+    <li>Position sizing sudah dihitung — risiko maksimal 2% dari modal</li>
+    <li>Tidak ada berita besar (News High Impact) dalam 30 menit ke depan</li>
+    <li>Kondisi emosi stabil — tidak trading karena FOMO, takut, atau marah</li>
+  </ul>
+
+  <h2>5.3 Manajemen Posisi Terbuka</h2>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Skenario</th><th>Aksi</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="up">Profit mencapai 1R</td>
+        <td>Geser SL ke breakeven (entry). Risiko = 0.</td>
+      </tr>
+      <tr>
+        <td class="up">Profit mencapai 2R</td>
+        <td>Close 50% posisi. Biarkan sisa 50% berjalan dengan trailing SL.</td>
+      </tr>
+      <tr>
+        <td class="up">Profit mencapai Target (TP)</td>
+        <td>Close seluruh posisi. Tidak perlu menunggu lebih.</td>
+      </tr>
+      <tr>
+        <td class="dn">Harga mendekati SL</td>
+        <td>Biarkan SL bekerja. JANGAN digeser menjauhi entry.</td>
+      </tr>
+      <tr>
+        <td>Setup berubah di HTF</td>
+        <td>Boleh keluar lebih awal dengan loss lebih kecil dari SL.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>5.4 Template Trading Plan Harian</h2>
+  <div class="journal-template">
+    <div class="journal-field">
+      <div class="journal-key">Tanggal & Sesi Trading</div>
+      <div class="journal-line">___ / ___ / _____ &nbsp;&nbsp;|&nbsp;&nbsp; Sesi: □ London &nbsp; □ New York &nbsp; □ Asia</div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">Bias Pasar Hari Ini (berdasarkan HTF)</div>
+      <div class="journal-line">□ Bullish &nbsp;&nbsp; □ Bearish &nbsp;&nbsp; □ Ranging / Skip</div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">Pair / Instrument</div>
+      <div class="journal-line">___________________________</div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">Level Kunci yang Diawasi</div>
+      <div class="journal-line">OB: _______ &nbsp;|&nbsp; FVG: _______ &nbsp;|&nbsp; Liquidity: _______</div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">Kondisi Entry</div>
+      <div class="journal-line">Entry: _______ | SL: _______ | TP1: _______ | TP2: _______</div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">R:R Ratio & Lot Size</div>
+      <div class="journal-line">R:R = 1 : ______ &nbsp;|&nbsp; Lot = ______ &nbsp;|&nbsp; Risk = ______%</div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">Alasan Trade (max 2 kalimat)</div>
+      <div class="journal-line" style="min-height:60px"></div>
+    </div>
+  </div>
+
+  <div class="ch-divider"></div>
+</section>
+
+<!-- ══════════ BAB 6 ══════════ -->
+<div class="page-mark">— BAB VI —</div>
+<section id="bab6" class="chapter fade-in">
+  <div class="chapter-header">
+    <div class="ch-number">Bab Enam · Psikologi</div>
+    <h1 class="ch-title">Sisi Gelap Trader —<br>Psikologi & Emosi</h1>
+    <div class="ch-goal">🎯 Goal: Overconfidence, Revenge Trading, dan pentingnya Jurnal Trading</div>
+  </div>
+
+  <div class="prose">
+    <p>Bab ini adalah yang paling sulit bukan karena materinya rumit — tapi karena musuhnya adalah kamu sendiri. Semua strategi terbaik di dunia tidak ada gunanya jika eksekusinya sabotase oleh emosi yang tidak terkontrol.</p>
+    <p>Psikologi trading bukan topik "soft skill" yang bisa diabaikan. Ini adalah faktor pembeda antara trader yang bertahan dan trader yang bangkrut dengan strategi yang sama.</p>
+  </div>
+
+  <h2>6.1 Musuh Utama Trader: Bias Kognitif</h2>
+
+  <table class="data-table">
+    <thead>
+      <tr><th>Bias</th><th>Manifestasi</th><th>Bahaya</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="dn">Overconfidence</td>
+        <td>Setelah beberapa win streak, merasa "sudah jago" dan mulai skip checklist</td>
+        <td class="dn">Increase lot size ugal-ugalan → satu loss besar</td>
+      </tr>
+      <tr>
+        <td class="dn">Recency Bias</td>
+        <td>Merasa strategi "broken" setelah 3 loss berturut-turut</td>
+        <td class="dn">Abandon sistem yang sebetulnya masih valid</td>
+      </tr>
+      <tr>
+        <td class="dn">Loss Aversion</td>
+        <td>Menolak cut loss karena "mungkin harga akan balik"</td>
+        <td class="dn">Loss kecil menjadi loss besar / MC</td>
+      </tr>
+      <tr>
+        <td class="dn">FOMO</td>
+        <td>Masuk trade tanpa setup karena takut ketinggalan move besar</td>
+        <td class="dn">Entry di tempat salah, SL terlalu jauh</td>
+      </tr>
+      <tr>
+        <td class="dn">Anchoring</td>
+        <td>Terpaku pada harga entry dan tidak mau akui trade sudah invalid</td>
+        <td class="dn">Hold posisi yang seharusnya sudah ditutup</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>6.2 Overconfidence setelah Win Streak</h2>
+  <div class="prose">
+    <p>Win streak adalah salah satu kondisi paling berbahaya dalam trading. Secara paradoks, periode sukses justru sering menjadi awal dari drawdown terbesar.</p>
+  </div>
+
+  <div class="callout callout-danger">
+    <div class="callout-label">🔴 Siklus Mematikan</div>
+    <p><strong>Win streak → Overconfidence → Increase lot → Skip checklist → Loss besar → Panic → Revenge trade → Akun terkuras</strong>. Siklus ini sangat umum dan hampir setiap trader melewatinya setidaknya sekali.</p>
+  </div>
+
+  <h3>Cara Mengatasi Overconfidence</h3>
+  <ul class="list-styled">
+    <li>Tetapkan <strong>aturan baku lot size</strong> berdasarkan % modal — jangan pernah naik karena "feeling confident"</li>
+    <li>Setelah win streak 5+ trade, <strong>ambil jeda 1 hari</strong> untuk review semua trade tersebut secara objektif</li>
+    <li>Ingat: win streak bisa jadi karena kondisi pasar sedang cocok, bukan karena kamu menjadi trader yang lebih baik</li>
+    <li>Selalu tanya: <em>"Apakah aku mengikuti sistemku atau sedang gambling?"</em></li>
+  </ul>
+
+  <h2>6.3 Revenge Trading — Musuh Paling Mematikan</h2>
+  <div class="prose">
+    <p>Revenge trading adalah kondisi di mana trader membuka posisi baru segera setelah mengalami loss — bukan karena ada setup yang valid, tapi karena ingin <em>"balas dendam"</em> pada pasar dan mendapatkan kembali uang yang hilang.</p>
+    <p>Pasar tidak punya emosi. Pasar tidak tahu kamu baru saja loss. Membuka trade untuk "membalas" pasar hanya akan membuat kamu membuat keputusan irasional dua kali berturut-turut.</p>
+  </div>
+
+  <div class="emotion-meter">
+    <div style="font-family:var(--mono); font-size:11px; color:var(--text-dim); letter-spacing:2px; margin-bottom:4px">LEVEL BAHAYA EMOSI SAAT TRADING</div>
+    <div class="emotion-row">
+      <div class="emotion-label">Euforia (win streak)</div>
+      <div class="emotion-bar-bg"><div class="emotion-bar" style="width:90%; background:var(--red)"></div></div>
+      <div class="emotion-val">9/10</div>
+    </div>
+    <div class="emotion-row">
+      <div class="emotion-label">Frustasi (loss)</div>
+      <div class="emotion-bar-bg"><div class="emotion-bar" style="width:85%; background:var(--red)"></div></div>
+      <div class="emotion-val">8/10</div>
+    </div>
+    <div class="emotion-row">
+      <div class="emotion-label">FOMO (takut ketinggalan)</div>
+      <div class="emotion-bar-bg"><div class="emotion-bar" style="width:75%; background:rgba(224,150,52,0.8)"></div></div>
+      <div class="emotion-val">7/10</div>
+    </div>
+    <div class="emotion-row">
+      <div class="emotion-label">Kebosanan (choppy market)</div>
+      <div class="emotion-bar-bg"><div class="emotion-bar" style="width:60%; background:rgba(201,168,76,0.7)"></div></div>
+      <div class="emotion-val">5/10</div>
+    </div>
+    <div class="emotion-row">
+      <div class="emotion-label">Tenang & Fokus</div>
+      <div class="emotion-bar-bg"><div class="emotion-bar" style="width:15%; background:var(--green)"></div></div>
+      <div class="emotion-val">1/10</div>
+    </div>
+  </div>
+
+  <div class="callout callout-gold">
+    <div class="callout-label">⚡ Aturan Setelah Loss</div>
+    <p>Setelah mengalami loss yang mengenai SL: <strong>(1) Tutup platform selama minimal 30 menit. (2) Lakukan sesuatu yang tidak berhubungan dengan trading. (3) Kembali dan review trade dengan kepala dingin. (4) Hanya masuk trade berikutnya jika ada setup valid — bukan karena ingin "balas dendam".</strong></p>
+  </div>
+
+  <h2>6.4 Jurnal Trading — Investasi Paling Underrated</h2>
+  <div class="prose">
+    <p>Jurnal trading adalah satu-satunya cara untuk belajar dari kesalahan secara sistematis. Tanpa jurnal, kamu hanya mengandalkan memori — yang sangat tidak reliable dan sangat bias terhadap kenangan yang nyaman.</p>
+    <p>Trader dengan jurnal yang konsisten berkembang jauh lebih cepat dibandingkan trader tanpa jurnal, bahkan jika yang pertama memiliki strategi yang lebih lemah.</p>
+  </div>
+
+  <h3>Template Jurnal Trade Lengkap</h3>
+  <div class="journal-template">
+    <div class="journal-field">
+      <div class="journal-key">Info Trade</div>
+      <div class="journal-line">Tanggal: _______ | Pair: _______ | Arah: □ Buy □ Sell | Sesi: _______</div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">Harga</div>
+      <div class="journal-line">Entry: _______ | SL: _______ | TP: _______ | Close: _______</div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">Manajemen Risiko</div>
+      <div class="journal-line">Lot: _______ | Risk: _______% | R:R Planned: 1:_______ | R:R Actual: 1:_______</div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">Hasil</div>
+      <div class="journal-line">□ Win &nbsp; □ Loss &nbsp; □ Breakeven &nbsp;&nbsp; P/L: _______ | R: _______</div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">Setup & Alasan Entry</div>
+      <div class="journal-line" style="min-height:60px"></div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">Kondisi Emosi saat Entry (1–10)</div>
+      <div class="journal-line">Level: ______ | Catatan: ________________________________</div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">Apakah Trade ini Sesuai Trading Plan?</div>
+      <div class="journal-line">□ Ya, 100% sesuai &nbsp; □ Tidak — alasan: _______________________</div>
+    </div>
+    <div class="journal-field">
+      <div class="journal-key">Pelajaran / Notes</div>
+      <div class="journal-line" style="min-height:60px"></div>
+    </div>
+  </div>
+
+  <h2>6.5 Rutinitas Trader Profesional</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">🌅</div>
+      <div class="step-body">
+        <div class="step-title">Sebelum Market Buka</div>
+        <div class="step-desc">Review HTF bias. Cek economic calendar (Forexfactory/Investing.com). Tentukan pair yang akan diwatch. Tetapkan daily loss limit hari ini.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">📊</div>
+      <div class="step-body">
+        <div class="step-title">Saat Market Buka</div>
+        <div class="step-desc">Ikuti SOP top-down analysis. Tunggu setup datang ke kamu — jangan mengejar setup. Patuhi checklist pre-trade 100%.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">📝</div>
+      <div class="step-body">
+        <div class="step-title">Setelah Setiap Trade</div>
+        <div class="step-desc">Isi jurnal segera. Screenshot chart dengan markup. Catat kondisi emosi. Evaluasi apakah eksekusi sesuai plan.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">📅</div>
+      <div class="step-body">
+        <div class="step-title">Weekly Review (Setiap Minggu)</div>
+        <div class="step-desc">Review semua trade minggu ini. Hitung win rate, expectancy, dan maximum drawdown. Identifikasi pola kesalahan yang berulang. Adjust strategi jika perlu.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <div class="callout-label">✓ Pesan Penutup</div>
+    <p>Trading adalah marathon, bukan sprint. Trader yang bertahan selama 5–10 tahun bukan yang paling pintar atau yang paling berani — tapi yang paling <strong>konsisten, disiplin, dan rendah hati</strong>. Pasar akan selalu ada. Modal yang habis tidak akan kembali. <strong>Protect your capital first. Profit will follow.</strong></p>
+  </div>
+
+  <div class="ch-divider"></div>
+</section>
+
+<!-- CLOSING -->
+<section style="max-width:900px; margin:0 auto; padding:80px 24px; text-align:center;">
+  <div class="cover-divider" style="margin-bottom:48px"></div>
+  <p style="font-family:var(--mono); font-size:11px; letter-spacing:4px; color:var(--text-dim); text-transform:uppercase; margin-bottom:16px">Market Code</p>
+  <p style="font-family:var(--serif); font-size:clamp(18px,4vw,28px); color:var(--text-bright); font-style:italic; margin-bottom:32px">"Pasar memberi hadiah pada yang sabar dan menghukum yang terburu-buru."</p>
+  <p style="font-family:var(--mono); font-size:12px; color:var(--text-dim)">Terus belajar · Terus backtest · Terus catat · Tetap disiplin</p>
+  <div class="cover-divider" style="margin-top:48px"></div>
+</section>
+
+<script>
+  // Fade in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(el => {
+      if (el.isIntersecting) el.target.classList.add('visible');
+    });
+  }, { threshold: 0.05 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
